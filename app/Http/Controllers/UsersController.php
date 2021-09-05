@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -34,16 +35,12 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        User::create($request->validate([
-            'name' => 'required|string|min:3|max:50',
-            'email' => 'required|string|email',
-        ]));
-
+        User::create($request->validated());
         return redirect()->route("users.index")->withSuccess('User was successful created!');
     }
 
@@ -74,17 +71,14 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @param User $user
      * @return Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
         try {
-            $user->update($request->validate([
-                'name' => 'required|string|min:3|max:50',
-                'email' => 'required|string|email',
-            ]));
+            $user->update($request->validated());
 
             return redirect()->route("users.index")->withSuccess('User was successfully updated!');
 
@@ -102,6 +96,6 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->back()->withSuccess('User was successful deleted!');
+        return redirect()->route("users.index")->withSuccess('User was successful deleted!');
     }
 }

@@ -4,7 +4,7 @@
 
 @section('content')
     <a type="button" class="btn btn-secondary" href="{{ route('users.index') }}">Back to users</a>
-    <div class="card mt-3" style="width: 18rem;">
+    <div class="card mt-3" style="width: 25rem;">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Id: {{$user->id}}</li>
             <li class="list-group-item">Name: {{$user->name}}</li>
