@@ -1,3 +1,6 @@
-- laravel 8+
-- crud
+# laravel 8+   / CRUD
 - 
+- users list 
+- edit/add new user
+- paginations
+
