@@ -23,10 +23,10 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        $rule = isset($this->user->id) ? ",".$this->user->id : null;
+        $rule = isset($this->user->id) ? "," . $this->user->id : null;
         return [
             'name' => 'required|string|min:3|max:50',
-            'email' => "required|email|min:3|max:150|unique:users,email".$rule,
+            'email' => "required|email|min:3|max:150|unique:users,email" . $rule,
         ];
     }
 }

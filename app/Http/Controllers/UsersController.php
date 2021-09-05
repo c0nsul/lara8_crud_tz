@@ -8,7 +8,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UsersController extends Controller
@@ -65,7 +64,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-         return view('form', compact('user'));
+        return view('form', compact('user'));
     }
 
     /**
