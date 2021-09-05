@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -33,56 +34,74 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request)
     {
-        //
+        User::create($request->validate([
+            'name' => 'required|string|min:3|max:50',
+            'email' => 'required|string|email',
+        ]));
+
+        return redirect()->route("users.index")->withSuccess('User was successful created!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
-     * @return Application|Factory|View|Response
+     * @param $id
+     * @param User $userModel
+     * @return Application|Factory|View
      */
-    public function show(User $user)
+    public function show($id, User $userModel)
     {
-        return view('show');
+        $user = $userModel->find($id) ?? abort(404);
+        return view('show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
-     * @return Application|Factory|View|Response
+     * @param User $user
+     * @return Application|Factory|View
      */
     public function edit(User $user)
     {
-        return view('form', compact('user'));
+         return view('form', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param Request $request
+     * @param User $user
      * @return Response
      */
     public function update(Request $request, User $user)
     {
-        //
+        try {
+            $user->update($request->validate([
+                'name' => 'required|string|min:3|max:50',
+                'email' => 'required|string|email',
+            ]));
+
+            return redirect()->route("users.index")->withSuccess('User was successfully updated!');
+
+        } catch (ModelNotFoundException $exception) {
+            return redirect()->back()->withErrors('Error while user updating!');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param User $user
      * @return Response
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->back()->withSuccess('User was successful deleted!');
     }
 }

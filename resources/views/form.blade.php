@@ -4,13 +4,7 @@
 
 @section('content')
     <a type="button" class="btn btn-secondary" href="{{ route('users.index') }}">Back to users</a>
-    <form method="POST"
-          @if(isset($user))
-          action="{{ route('users.update', $user) }}"
-          @else
-          action="{{ route('users.store') }}"
-          @endif
-          class="mt-3">
+    <form action="{{ isset($user) ? route('users.update', $user) : route('users.store') }}" method="POST" class="mt-3">
         @csrf
         @isset($user)
             @method('PUT')
@@ -29,7 +23,7 @@
             <div class="col">
                 <input name="email"
                        value="{{ old('email', isset($user) ? $user->email : null) }}"
-                       type="text" class="form-control" placeholder="Email" aria-label="email">
+                       type="email" class="form-control" placeholder="Email" aria-label="email">
                 @error('email')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
@@ -37,7 +31,7 @@
         </div>
         <div class="row mt-4">
             <div class="col">
-                <button type="submit" class="btn btn-success">Create</button>
+                <button type="submit" class="btn btn-success">{{isset($user) ? 'Update' : 'Create'}}</button>
             </div>
         </div>
     </form>
