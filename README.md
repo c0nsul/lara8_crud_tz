@@ -2,5 +2,5 @@
 - 
 - users list 
 - edit/add new user
-- paginations
+- pagination
 
